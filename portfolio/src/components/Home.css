@@ -1,5 +1,5 @@
 .cyber-home-btn {
-  position: absolute;
+  position: fixed;
   top: 18px;
   left: 28px;
   z-index: 1001;
