@@ -1,8 +1,11 @@
+// components/ModelViewer.jsx
 import React, { Suspense, useState, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, useGLTF } from '@react-three/drei'
 import Spinner from './Spinner'
-
+import TopBar from './TopBar'
+import SideBar from './SideBar'
+import HomeButton from './Home'
 function Model() {
   const gltf = useGLTF('/src/assets/mainmodel.glb')
   return <primitive object={gltf.scene} dispose={null} scale={2} />
@@ -20,6 +23,9 @@ export default function ModelViewer() {
 
   return (
     <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+      <HomeButton />
+      <TopBar />
+      <SideBar />
       {loading && <Spinner />}
       <Canvas style={{ height: '100vh', width: '100vw' }} camera={{ position: [-300, 0, 0] }}>
         <ambientLight intensity={0.5} />
