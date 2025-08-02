@@ -30,7 +30,7 @@ const VerticalOverlayBar = styled.div`
   }
 
   @media (max-width: 480px) {
-    top: 530px; /* moved even lower */
+    top: 350px; /* moved even lower */
     left: 8px;
     width: 30px;
     height: 150px;

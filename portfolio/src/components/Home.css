@@ -31,3 +31,22 @@
   margin-right: 6px;
   filter: drop-shadow(0 0 4px #00eaff);
 }
+
+/* Adjust positioning for smaller screens to avoid overlap with TopBar */
+@media (max-width: 768px) {
+  .cyber-home-btn {
+    top: 60px; /* Move below TopBar (30px height + 20px top offset + 10px spacing) */
+    left: 15px;
+    padding: 5px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cyber-home-btn {
+    top: 70px; /* Move further down to account for taller TopBar on small screens */
+    left: 10px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+  }
+}
