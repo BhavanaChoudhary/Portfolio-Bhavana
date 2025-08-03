@@ -13,7 +13,7 @@ const OverlayBar = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
   border-radius: 8px;
-  z-index: 10;
+  z-index: 500;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,7 +62,7 @@ export default function TopBar() {
   return (
     <OverlayBar>
       <Link href="/about">About Me</Link>
-      <Link href="/resume">Skills</Link>
+      <Link href="/skills">Skills</Link>
       <Link href="/projects">Projects</Link>
       <Link href="/achievements">Achievements</Link>
       <Link href="/otherworks">Other Works</Link>

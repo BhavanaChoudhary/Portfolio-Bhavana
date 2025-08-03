@@ -13,7 +13,7 @@ const VerticalOverlayBar = styled.div`
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.6);
   border-radius: 8px;
-  z-index: 10;
+  z-index: 500;
   display: flex;
   flex-direction: column;
   justify-content: center;
