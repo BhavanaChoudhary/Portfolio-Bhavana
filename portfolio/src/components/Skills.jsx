@@ -6,8 +6,8 @@ import TopBar from './TopBar';
 import SideBar from './SideBar';
 
 // Import skill icons
-import { FaReact, FaJava, FaPython, FaJs, FaGitAlt, FaGithub, FaNode } from 'react-icons/fa';
-import { SiSpringboot, SiMongodb, SiPostman, SiOpencv, SiGooglecloud } from 'react-icons/si';
+import { FaReact, FaJava, FaPython, FaJs, FaGitAlt, FaGithub, FaNode, FaUbuntu, FaWindows ,FaRobot} from 'react-icons/fa';
+import { SiSpringboot, SiMongodb, SiPostman, SiOpencv, SiGooglecloud, SiExpress } from 'react-icons/si';
 import { DiMysql, DiNodejs } from 'react-icons/di';
 
 const Skills = () => {
@@ -33,18 +33,25 @@ const Skills = () => {
     { name: 'GitHub', icon: <FaGithub size={50} />, color: '#4078c0' },
     { name: 'Postman', icon: <SiPostman size={50} />, color: '#ff6c37' },
     { name: 'OpenCV', icon: <SiOpencv size={50} />, color: '#5c3ee8' },
-    { name: 'GCP', icon: <SiGooglecloud size={50} />, color: '#4285f4' }
+    { name: 'GCP', icon: <SiGooglecloud size={50} />, color: '#4285f4' },
+    { name: 'Ubuntu', icon: <FaUbuntu size={50} />, color: '#e95420' },
+    { name: 'Windows', icon: <FaWindows size={50} />, color: '#0078d4' },
+    // { name: 'Express', icon: <SiExpress size={50} />, color: '#000000' },
+    { name: 'n8n', icon: <FaRobot size={50} />, color: '#ff6b55' }  // Using Spring Boot icon as placeholder for n8n
   ];
 
-  // Initialize positions with proper spacing
-  useEffect(() => {
+  // Function to initialize positions with proper spacing
+  const initializePositions = () => {
     if (containerRef.current) {
       const containerWidth = containerRef.current.offsetWidth;
       const containerHeight = containerRef.current.offsetHeight;
       
+      // Adjust margin based on screen size
+      const margin = window.innerWidth < 768 ? 30 : 50;
+      
       const initialPositions = skills.map(() => ({
-        x: Math.random() * (containerWidth - 100),
-        y: Math.random() * (containerHeight - 100),
+        x: Math.random() * (containerWidth - 100) + 50,
+        y: Math.random() * (containerHeight - 100) + 50,
         vx: (Math.random() - 0.5) * 0.8,
         vy: (Math.random() - 0.5) * 0.8,
         angle: Math.random() * Math.PI * 2,
@@ -54,6 +61,22 @@ const Skills = () => {
       
       setPositions(initialPositions);
     }
+  };
+
+  // Initialize positions with proper spacing
+  useEffect(() => {
+    initializePositions();
+    
+    // Add resize event listener
+    const handleResize = () => {
+      initializePositions();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Animation loop
@@ -71,6 +94,11 @@ const Skills = () => {
         const containerHeight = containerRef.current.offsetHeight;
         const { x: mouseX, y: mouseY } = mousePosRef.current;
         
+        // Adjust repulsion radius and margin based on screen size
+        const isMobile = window.innerWidth < 768;
+        const repulsionRadius = isMobile ? 100 : 200;
+        const margin = isMobile ? 30 : 50;
+        
         const newPositions = positions.map(pos => {
           let { x, y, vx, vy, angle, floatSpeed, amplitude } = pos;
           
@@ -81,14 +109,13 @@ const Skills = () => {
           const floatY = Math.sin(angle + timeFactor * floatSpeed * 1.2) * amplitude +
                         Math.cos(angle * 0.8 + timeFactor * floatSpeed * 0.8) * (amplitude * 0.8);
           
-          // Mouse repulsion
+          // Mouse repulsion (or touch for mobile)
           const dx = x - mouseX;
           const dy = y - mouseY;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 200) {
-            const repulsionRadius = 200;
-            const repulsionStrength = 0.15;
+          if (distance < repulsionRadius) {
+            const repulsionStrength = isMobile ? 0.1 : 0.15;
             const force = Math.pow(1 - distance / repulsionRadius, 2) * repulsionStrength;
             const angleToMouse = Math.atan2(dy, dx);
             
@@ -105,9 +132,8 @@ const Skills = () => {
           x += (vx + floatX) * deltaTime * 50;
           y += (vy + floatY) * deltaTime * 50;
           
-          // Boundary handling
+          // Boundary handling with responsive margins
           const bounceDamping = 0.85;
-          const margin = 50;
           const elasticity = 0.95;
           
           if (x < margin) {
@@ -151,6 +177,17 @@ const Skills = () => {
     }
   };
 
+  // Handle touch events for mobile devices
+  const handleTouchMove = (e) => {
+    if (containerRef.current && e.touches.length > 0) {
+      const rect = containerRef.current.getBoundingClientRect();
+      mousePosRef.current = {
+        x: e.touches[0].clientX - rect.left,
+        y: e.touches[0].clientY - rect.top
+      };
+    }
+  };
+
   // Video play handler
   useEffect(() => {
     const handleVideoPlay = async () => {
@@ -175,6 +212,8 @@ const Skills = () => {
         className="skills-container" 
         ref={containerRef}
         onMouseMove={handleMouseMove}
+        onTouchMove={handleTouchMove}
+        onTouchStart={handleTouchMove}
       >
         <video
           ref={videoRef}
@@ -214,13 +253,13 @@ const Skills = () => {
           <span className="terminal-prompt">{'>'}</span>
           <span className="terminal-command">Frameworks</span>
         </div>
-        <p className="terminal-items">Spring Boot • React.js</p>
+        <p className="terminal-items">Spring Boot • React.js • Express</p>
         
         <div className="terminal-category">
           <span className="terminal-prompt">{'>'}</span>
           <span className="terminal-command">AI/ML</span>
         </div>
-        <p className="terminal-items">LLMs • OpenCV • Prompt Engineering</p>
+        <p className="terminal-items">LLMs • OpenCV • Prompt Engineering • n8n</p>
         
         <div className="terminal-category">
           <span className="terminal-prompt"> {'>'}</span>
@@ -238,7 +277,7 @@ const Skills = () => {
           <span className="terminal-prompt">{'>'}</span>
           <span className="terminal-command">Platforms</span>
         </div>
-        <p className="terminal-items">GCP</p>
+        <p className="terminal-items">GCP • Ubuntu • Windows</p>
       </div>
     </div>
   </div>

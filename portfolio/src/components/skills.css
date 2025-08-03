@@ -466,6 +466,32 @@
   left: 20px;
   box-shadow: 0 0 20px rgba(0, 249, 255, 0.2);
   backdrop-filter: blur(6px);
+  position: relative;
+  margin: 0 auto;
+}
+
+/* Smaller terminal for smaller screens */
+@media (max-width: 1024px) {
+  .cyberpunk-terminal {
+    max-width: 400px;
+    height: 700px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cyberpunk-terminal {
+    max-width: 350px;
+    height: 600px;
+    left: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cyberpunk-terminal {
+    max-width: 300px;
+    height: 500px;
+    width: 90%;
+  }
 }
 
 .terminal-header {
@@ -560,6 +586,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  
   .cyberpunk-heading {
     font-size: 2.2rem;
   }
